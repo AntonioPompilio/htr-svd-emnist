@@ -156,7 +156,7 @@ With the default settings (300 training images/letter, K = K₉₅ = 112):
 
 ### Confusion Matrix
 
-![Confusion Matrix](images/confusion_matrix.png)
+![Confusion Matrix](images/matrice_confusione.png)
 
 The diagonal is well-defined for most letters, meaning the classifier is generally reliable. The most notable confusions are:
 
@@ -166,7 +166,7 @@ The diagonal is well-defined for most letters, meaning the classifier is general
 
 ### Per-letter Accuracy
 
-![Per-letter Accuracy](images/accuracy_per_letter.png)
+![Per-letter Accuracy](images/accuratezza_per_lettera.png)
 
 | Best letters | Accuracy | Worst letters | Accuracy |
 |---|---|---|---|
@@ -179,7 +179,7 @@ Letters with distinctive shapes (`o`, `m`, `s`, `w`) are classified almost perfe
 
 ### Accuracy vs. K
 
-![Accuracy vs K](images/accuracy_vs_k.png)
+![Accuracy vs K](images/accuratezza_al_variare_di_K.png)
 
 Accuracy peaks around **K = 50** (~79.5%), then slightly decreases for larger K. This counter-intuitive behaviour is a known property of nearest-neighbour classifiers in high-dimensional spaces: adding more dimensions beyond what is needed introduces noise and makes distance metrics less discriminative. K₉₅ = 112 is a reasonable operating point (77%), but the optimal K for this specific task is lower.
 
