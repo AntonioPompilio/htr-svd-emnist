@@ -75,6 +75,10 @@ emnist-letters-test-labels-idx1-ubyte
 ```
 emnist_svd/
 ├── emnist_svd.py                          # Main script
+├── images/
+│   ├── confusion_matrix.png               # Results visualizations
+│   ├── accuracy_per_letter.png
+│   └── accuracy_vs_k.png
 ├── emnist-letters-train-images-idx3-ubyte # Dataset files (not tracked by git)
 ├── emnist-letters-train-labels-idx1-ubyte
 ├── emnist-letters-test-images-idx3-ubyte
@@ -146,11 +150,38 @@ Console output includes:
 
 ## Results
 
-With the default settings (300 training images/letter, K = K₉₅):
+With the default settings (300 training images/letter, K = K₉₅ = 112):
 
-- **Global accuracy: ~55–65%** on the balanced test set
+- **Global accuracy: 76.9%** on the balanced test set (80 images/letter)
 
-This is expected for a pure nearest-neighbor SVD classifier with limited training data. Some letters are inherently harder to distinguish (e.g., `i`/`l`, `u`/`v`).
+### Confusion Matrix
+
+![Confusion Matrix](images/confusion_matrix.png)
+
+The diagonal is well-defined for most letters, meaning the classifier is generally reliable. The most notable confusions are:
+
+- **`i` ↔ `l`** — visually very similar in many handwriting styles (27 `i`s misclassified as `l`)
+- **`q` ↔ `a`, `g`** — `q` has the lowest per-letter accuracy (41%), frequently confused with similar round letters
+- **`f` ↔ `t`** — both share a horizontal bar, causing misclassifications in both directions
+
+### Per-letter Accuracy
+
+![Per-letter Accuracy](images/accuracy_per_letter.png)
+
+| Best letters | Accuracy | Worst letters | Accuracy |
+|---|---|---|---|
+| `o` | 98% | `q` | 41% |
+| `m` | 95% | `g` | 58% |
+| `s`, `w` | 94% | `f`, `i` | 60% |
+| `n` | 82% | `t`, `u` | 71% |
+
+Letters with distinctive shapes (`o`, `m`, `s`, `w`) are classified almost perfectly. Letters that are visually ambiguous or that vary heavily across handwriting styles (`q`, `g`, `f`) are the hardest.
+
+### Accuracy vs. K
+
+![Accuracy vs K](images/accuracy_vs_k.png)
+
+Accuracy peaks around **K = 50** (~79.5%), then slightly decreases for larger K. This counter-intuitive behaviour is a known property of nearest-neighbour classifiers in high-dimensional spaces: adding more dimensions beyond what is needed introduces noise and makes distance metrics less discriminative. K₉₅ = 112 is a reasonable operating point (77%), but the optimal K for this specific task is lower.
 
 ---
 
